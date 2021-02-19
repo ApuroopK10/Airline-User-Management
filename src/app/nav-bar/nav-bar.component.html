@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-md navbar-light fixed-top py-4">
+  <div class="container">
+    <a href="#home" class="navbar-brand">
+      <i class="fa fa-plane fa-2x"></i>
+      <h3 class="d-inline align-middle">Airline</h3>
+    </a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navBarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navBarCollapse">
+      <ul class="navbar-nav ml-auto" style="margin-left: auto;">
+        <li class="nav-item">
+          <a href="#home" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#about" class="nav-link">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a [routerLink]="['users']" class="nav-link">Users</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
