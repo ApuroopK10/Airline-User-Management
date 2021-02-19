@@ -1,0 +1,91 @@
+<app-nav-bar></app-nav-bar>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div>
+          <div class="user-header text-center">
+            <h2 class="display-6">Users List</h2>
+          </div>
+          <p-table [columns]="userHeaders" [value]="userData" [scrollable]="true" scrollHeight="200px">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns">
+                  <span class="text-responsive">{{col.header}}</span>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+              <tr>
+                <td *ngFor="let col of columns">
+                  <ng-container *ngIf="col.field !== 'action'; else actionRef">
+                    <span class="text-responsive">{{rowData[col.field]}}</span>
+                  </ng-container>
+                  <ng-template #actionRef>
+                    <div class="user-action">
+                      <a (click)="updateUser(rowData)" data-toggle="modal" data-target="#editModal"><i
+                          class="fa fa-edit"></i></a>
+                      <a (click)="deleteUser(rowIndex)"><i class="fa fa-trash"></i></a>
+                    </div>
+
+                  </ng-template>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr class="text-center">
+                <td [attr.colspan]="columns.length">
+                  No Users found
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDIT MODAL -->
+<div class="modal fade text-dark" id="editModal" *ngIf="editUser">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Details</h5>
+        <button class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" class="form-control" [(ngModel)]="editUser.name" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="form-group">
+            <label for="name">Email</label>
+            <input type="email" class="form-control" [(ngModel)]="editUser.email" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="form-group">
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select a Role</button>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">User</a>
+                <a class="dropdown-item" href="#">Admin</a>
+                <a class="dropdown-item" href="#">Super Admin</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer mx-auto">
+        <button class="btn btn-primary btn-block">Submit</button>
+      </div>
+
+    </div>
+  </div>
+</div>
