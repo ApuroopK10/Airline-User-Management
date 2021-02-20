@@ -2,7 +2,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
+const connectDB = require("./config/db");
 
+// Connect to database
+connectDB();
+
+const signUpRoute = require("./routes/signup-route");
 // added cors options
 const corsOptions = {
   origin: "*",
@@ -34,20 +39,23 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
+app.get("/test", (req, res) => {
   res.send("running on port 3000");
 });
+
+app.use("/authenticate", signUpRoute);
 
 // Catch uncaught exceptions and rejections
 process.on("uncaughtException", (err) => {
   console.log("uncaughtException->", err);
 });
 
-process.on("unhandledRejection", (err) => {
-  console.log("unhandledRejection->", err);
+// App listening on port
+const server = app.listen(3001, function () {
+  console.log("Node-App listening on port 3000!");
 });
 
-// App listening on port
-app.listen(3000, function () {
-  console.log("Node-App listening on port 3000!");
+process.on("unhandledRejection", (err) => {
+  console.log("unhandledRejection->", err);
+  server.close(() => process.exit(1));
 });
