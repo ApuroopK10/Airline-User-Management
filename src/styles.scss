@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+$primary: #3292a6;
+$primary-overlay: rgba(50, 146, 166, 0.8);
+
+
+.ui-progress-spinner {
+    position: fixed;
+    margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    left: calc(50% - 50px);
+    top: calc(50% - 50px);
+    background: #fff;
+    border-radius: 50%;
+}
+
+.grayedout {
+    width: 100%;
+    height: 100%;
+    background: rgb(129, 124, 124);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    display: block;
+    transition: all 0.5s ease 0s;
+    opacity: 0.6;
+}
