@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light fixed-top py-4">
   <div class="container">
-    <a href="#home" class="navbar-brand">
+    <a href="#" class="navbar-brand">
       <i class="fa fa-plane fa-2x"></i>
       <h3 class="d-inline align-middle">Airline</h3>
     </a>
@@ -10,13 +10,13 @@
     <div class="collapse navbar-collapse" id="navBarCollapse">
       <ul class="navbar-nav ml-auto" style="margin-left: auto;">
         <li class="nav-item">
-          <a href="#home" class="nav-link">Home</a>
+          <a [routerLink]="['landing']" class="nav-link">Home</a>
         </li>
         <li class="nav-item">
-          <a href="#about" class="nav-link">Profile</a>
+          <a href="#" class="nav-link">Profile</a>
         </li>
         <li class="nav-item">
-          <a [routerLink]="['users']" class="nav-link">Users</a>
+          <a [routerLink]="['landing/users']" class="nav-link">Users</a>
         </li>
       </ul>
     </div>
