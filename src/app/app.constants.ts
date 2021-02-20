@@ -6,9 +6,9 @@ export const userHeaders = [
 ];
 
 export const userData = [
-    {name: 'Apuroop', email: 'xyz@abc.com', role: 'User'},
-    {name: 'Anurah', email: 'xyz@abc.com', role: 'Admin'},
-    {name: 'qwert', email: 'xyz@abc.com', role: 'Super Admin'},
+    {name: 'Apuroop', email: 'xyz@abc.com', role: 'User', password: 'yhth', children: []},
+    {name: 'Anurah', email: 'xyz@abc.com', role: 'Admin', password: 'yhhyyt', children: []},
+    {name: 'qwert', email: 'xyz@abc.com', role: 'Super Admin', password: 'htyhyyt', children: []},
 ]
 
 export const roles = [

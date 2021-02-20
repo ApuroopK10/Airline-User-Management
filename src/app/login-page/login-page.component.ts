@@ -31,11 +31,10 @@ export class LoginPageComponent implements OnInit {
 
   submitForm() {
     this.isLoading = true;
-    this.user.role = this.user.role['value'];
+    const { name, email, password, role} = this.user
     if(this.signUpForm) {
-      this.loginService.signUp(this.user).subscribe(data => {
+      this.loginService.signUp({name, email, password, role: role['value']}).subscribe(data => {
         timer(500).subscribe(e => {
-        console.log('data', data);
         this.isLoading = false;
         this.messageService.add({severity: 'success', life: 5000 , summary: 'Success', detail: 'Signup complete'});
         this.router.navigate(['/landing']);
