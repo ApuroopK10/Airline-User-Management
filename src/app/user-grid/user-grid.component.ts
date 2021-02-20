@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { userData, userHeaders } from '../app.constants';
+import { roles, userData, userHeaders } from '../app.constants';
+import { User } from '../shared/models/User.model';
 
 @Component({
   selector: 'app-user-grid',
@@ -10,13 +11,17 @@ export class UserGridComponent implements OnInit {
 
   userData;
   userHeaders;
-  editUser;
+  editUser: User;
   deleteIndex;
+  user: User = new User('', '', '', '', []);
+  userRoles;
+  addUser = false;
   constructor() { }
 
   ngOnInit(): void {
     this.userData = userData;
     this.userHeaders = userHeaders;
+    this.userRoles = roles;
   }
 
   updateUser(row) {
@@ -26,6 +31,10 @@ export class UserGridComponent implements OnInit {
   deleteUser(rowIndex) {
     this.userData.splice(rowIndex, 1);
     this.userData = [...this.userData];
+  }
+
+  addClicked() {
+    this.addUser = true;
   }
 
 }
