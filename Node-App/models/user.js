@@ -18,12 +18,18 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
+    required: true,
   },
   children: [
     {
       type: String,
+      required: true,
     },
   ],
 });
+
+UserSchema.methods.matchPassword = async function (enteredPassword) {
+  return await enteredPassword.localeCompare(this.password);
+};
 
 module.exports = mongoose.model("User", UserSchema);

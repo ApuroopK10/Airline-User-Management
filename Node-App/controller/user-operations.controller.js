@@ -14,7 +14,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, data: response });
 });
 
-exports.getAllUser = asyncHandler(async (req, res, next) => {
+exports.getAllUsers = asyncHandler(async (req, res, next) => {
   const response = await User.find().where("_id").in(req.body.ids).exec();
 
   if (!response) {
@@ -27,11 +27,26 @@ exports.getAllUser = asyncHandler(async (req, res, next) => {
 });
 
 exports.createUser = asyncHandler(async (req, res, next) => {
-  const user = await User.create(req.body);
+  const { newUser, parentUser } = req.body;
+  const user = await User.create(newUser);
+  console.log("user-", user);
+  let parent;
+  if (user) {
+    parentUser.children.push(user._id);
+    parent = await User.findByIdAndUpdate(parentUser._id, parentUser, {
+      new: true,
+      runValidators: true,
+    });
+  }
+
+  let childUsers = [];
+  if (parent) {
+    childUsers = await User.find().where("_id").in(parent._id).exec();
+  }
 
   res.status(201).json({
     success: true,
-    data: user,
+    data: childUsers,
   });
 });
 
@@ -48,8 +63,8 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 });
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
-  await User.findByIdAndDelete(req.body.id);
-
+  const response = await User.findByIdAndDelete(req.body.id);
+  console.log("resp", response);
   res.status(200).json({
     success: true,
     data: {},
