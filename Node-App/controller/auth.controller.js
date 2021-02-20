@@ -1,5 +1,5 @@
-const ErrorResponse = require("../utils/errorResponse");
 const User = require("../models/User");
+const asyncHandler = require("../middleware/async");
 
 exports.signUp = asyncHandler(async (req, res) => {
   const { name, email, role, password } = req.body;
