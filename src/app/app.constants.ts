@@ -10,3 +10,9 @@ export const userData = [
     {name: 'Anurah', email: 'xyz@abc.com', role: 'Admin'},
     {name: 'qwert', email: 'xyz@abc.com', role: 'Super Admin'},
 ]
+
+export const roles = [
+    { label: 'User', value: 'User'},
+    { label: 'Admin', value: 'Admin'},
+    { label: 'Super Admin', value: 'Super Admin'}
+]
