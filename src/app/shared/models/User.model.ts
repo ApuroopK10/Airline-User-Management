@@ -1,9 +1,9 @@
 export class User {
-    private name: string;
-    private email: string;
-    private password: string;
-    private role: string;
-    private children: Array<string>;
+    public name: string;
+    public email: string;
+    public password: string;
+    public role: string;
+    public children: Array<string>;
 
 
     constructor(name: string, email: string, password: string, role: string, children: Array<string>) {
