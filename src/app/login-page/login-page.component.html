@@ -1,5 +1,12 @@
+<div class="grayedout" *ngIf="isLoading">
+  <p-progressSpinner></p-progressSpinner>
+</div>
 <div class="container d-flex justify-content-center">
+
   <div class="d-flex flex-column justify-content-between">
+    <p-toast position="top-center"></p-toast>
+
+
     <div class="card mt-3 p-5">
       <div class="logo mb-3 mx-auto">
         <i class="fa fa-plane fa-5x"></i>
@@ -17,28 +24,24 @@
       </button>
     </div>
     <div class="card two bg-white px-5 py-4 mb-3">
-      <form (ngSubmit)="submitForm()">
+      <form>
         <div class="form-group">
-          <input type="email" class="form-control" id="mail" required /><label class="form-control-placeholder"
-            for="mail">Email</label>
+          <input type="email" class="form-control" id="mail" required [(ngModel)]="user.email"
+            [ngModelOptions]="{standalone: true}" />
+          <label class="form-control-placeholder" for="mail">Email</label>
         </div>
-        <div *ngIf="signUpForm" class="form-group"><input type="text" class="form-control" id="name" required><label
-            class="form-control-placeholder" for="name">Full Name</label></div>
+        <div *ngIf="signUpForm" class="form-group">
+          <input type="text" class="form-control" id="name" required [(ngModel)]="user.name"
+            [ngModelOptions]="{standalone: true}">
+          <label class=" form-control-placeholder" for="name">Full Name</label></div>
         <div class="form-group">
-          <input type="password" class="form-control" id="password" required /><label class="form-control-placeholder"
-            for="password">Password</label>
+          <input type="password" class="form-control" id="password" required [(ngModel)]="user.password"
+            [ngModelOptions]="{standalone: true}" />
+          <label class="form-control-placeholder" for="password">Password</label>
         </div>
-        <div *ngIf="signUpForm" class="form-group mb-0">
-          <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">Select a Role</button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">User</a>
-              <a class="dropdown-item" href="#">Admin</a>
-              <a class="dropdown-item" href="#">Super Admin</a>
-            </div>
-          </div>
+        <div *ngIf="signUpForm" class="form-group mb-5">
+          <p-dropdown [options]="userRoles" [(ngModel)]="user.role" [ngModelOptions]="{standalone: true}"
+            optionLabel="label" placeholder="Select role"></p-dropdown>
         </div>
         <button class="btn btn-primary btn-block btn-lg mt-1 mb-2" type="submit" (click)="submitForm()">
           <span>{{signUpForm ? 'Sign Up' : 'Login'}}<i class="fas fa-long-arrow-alt-right ml-2"></i></span>

@@ -15,6 +15,9 @@ import { CommonModule } from "@angular/common";
 import {ToastModule} from 'primeng/toast';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { UserManagementComponent } from './user-management/user-management.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { MessageModule } from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,9 @@ import { UserManagementComponent } from './user-management/user-management.compo
     CommonModule,
     ToastModule,
     ProgressSpinnerModule,
+    DropdownModule,
+    MessageModule,
+    MessagesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
