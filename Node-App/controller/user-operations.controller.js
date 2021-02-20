@@ -14,6 +14,18 @@ exports.getUser = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, data: response });
 });
 
+exports.getAllUser = asyncHandler(async (req, res, next) => {
+  const response = await User.find().where("_id").in(req.body.ids).exec();
+
+  if (!response) {
+    return next(
+      new ErrorResponse(`User not found with id ${req.body.id}`, 404)
+    );
+  }
+  // return response;
+  res.status(200).json({ success: true, data: response });
+});
+
 exports.createUser = asyncHandler(async (req, res, next) => {
   const user = await User.create(req.body);
 
