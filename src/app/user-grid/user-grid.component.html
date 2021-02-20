@@ -1,3 +1,6 @@
+<div class="grayedout" *ngIf="isLoading">
+  <p-progressSpinner></p-progressSpinner>
+</div>
 <section class="mt-5">
   <div class="container">
     <div class="row">
@@ -8,7 +11,7 @@
             <button (click)="addClicked()" class="btn btn-primary bg-dark float-right" data-toggle="modal"
               data-target="#addModal"><i class="fa fa-plus mr-2"></i>Add</button>
           </div>
-          <p-table [columns]="userHeaders" [value]="userData" [scrollable]="true" scrollHeight="200px">
+          <p-table [columns]="userHeaders" [value]="allUsers" [scrollable]="true" scrollHeight="200px">
             <ng-template pTemplate="header" let-columns>
               <tr>
                 <th *ngFor="let col of columns">
@@ -47,7 +50,7 @@
 </section>
 
 <!-- EDIT MODAL -->
-<div class="modal fade text-dark" id="editModal" *ngIf="editUser">
+<div class="modal fade text-dark" id="editModal" *ngIf="editUser" #modalRef>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -88,7 +91,7 @@
 
 
 <!-- ADD MODAL -->
-<div class="modal fade text-dark" id="addModal" *ngIf="addUser">
+<div class="modal fade text-dark" id="addModal" *ngIf="addUser" #modalRef>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -120,7 +123,7 @@
       </div>
 
       <div class="modal-footer mx-auto">
-        <button class="btn btn-primary btn-block">Submit</button>
+        <button class="btn btn-primary btn-block" (click)="userOperations('add')">Submit</button>
       </div>
 
     </div>
