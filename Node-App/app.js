@@ -8,6 +8,7 @@ const connectDB = require("./config/db");
 connectDB();
 
 const authenticateRoute = require("./routes/authenticate-route");
+const userOpsRoute = require("./routes/user-operations-route");
 // added cors options
 const corsOptions = {
   origin: "*",
@@ -44,6 +45,7 @@ app.get("/test", (req, res) => {
 });
 
 app.use("/authenticate", authenticateRoute);
+app.use("/operations", userOpsRoute);
 
 // Catch uncaught exceptions and rejections
 process.on("uncaughtException", (err) => {
@@ -51,7 +53,7 @@ process.on("uncaughtException", (err) => {
 });
 
 // App listening on port
-const server = app.listen(3001, function () {
+const server = app.listen(3002, function () {
   console.log("Node-App listening on port 3000!");
 });
 
