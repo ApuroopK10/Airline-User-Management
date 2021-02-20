@@ -1,6 +1,6 @@
 const User = require("../models/User");
 
-exports.signUpCtrl = async (req, res) => {
+exports.signUp = async (req, res) => {
   try {
     const { name, email, role, password } = req.body;
     const response = await User.create({

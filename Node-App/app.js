@@ -7,7 +7,7 @@ const connectDB = require("./config/db");
 // Connect to database
 connectDB();
 
-const signUpRoute = require("./routes/signup-route");
+const authenticateRoute = require("./routes/authenticate-route");
 // added cors options
 const corsOptions = {
   origin: "*",
@@ -43,7 +43,7 @@ app.get("/test", (req, res) => {
   res.send("running on port 3000");
 });
 
-app.use("/authenticate", signUpRoute);
+app.use("/authenticate", authenticateRoute);
 
 // Catch uncaught exceptions and rejections
 process.on("uncaughtException", (err) => {
