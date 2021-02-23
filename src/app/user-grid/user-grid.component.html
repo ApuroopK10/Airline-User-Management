@@ -2,6 +2,7 @@
   <p-progressSpinner></p-progressSpinner>
 </div>
 <section class="mt-5">
+  <p-toast position="center"></p-toast>
   <div class="container">
     <div class="row">
       <div class="col-12">
@@ -11,7 +12,7 @@
             <button (click)="addClicked()" class="btn btn-primary bg-dark float-right" data-toggle="modal"
               data-target="#addModal"><i class="fa fa-plus mr-2"></i>Add</button>
           </div>
-          <p-table [columns]="userHeaders" [value]="allUsers" [scrollable]="true" scrollHeight="200px">
+          <p-table [columns]="userHeaders" [value]="allUsers" [scrollable]="true" scrollHeight="330px">
             <ng-template pTemplate="header" let-columns>
               <tr>
                 <th *ngFor="let col of columns">

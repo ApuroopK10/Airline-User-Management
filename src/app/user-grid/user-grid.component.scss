@@ -11,7 +11,14 @@
     }
 }
 
-
 .text-responsive {
   font-size: calc(0.9vw + 0.9vh);
+}
+
+:host ::ng-deep .ui-table-scrollable-header {
+    background-color: #f4f4f4;
+}
+
+:host ::ng-deep .ui-table-scrollable-view {
+    border: 1px solid #c8c8c8;
 }
