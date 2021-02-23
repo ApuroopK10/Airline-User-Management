@@ -12,7 +12,7 @@
             <button (click)="addClicked()" class="btn btn-primary bg-dark float-right" data-toggle="modal"
               data-target="#addModal"><i class="fa fa-plus mr-2"></i>Add</button>
           </div>
-          <p-table [columns]="userHeaders" [value]="allUsers" [scrollable]="true" scrollHeight="330px">
+          <p-table [columns]="userHeaders" [value]="allUsers" [scrollable]="true" scrollHeight="330px" #tableRef>
             <ng-template pTemplate="header" let-columns>
               <tr>
                 <th *ngFor="let col of columns">
@@ -35,6 +35,15 @@
                   </ng-template>
                 </td>
               </tr>
+            </ng-template>
+            <ng-template pTemplate="caption">
+              <div class="text-right">
+                <span class="p-input-icon-left p-ml-auto">
+                  <i class="pi pi-search float-right search"></i>
+                  <input pInputText type="text" (input)="tableRef.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search keyword" />
+                </span>
+              </div>
             </ng-template>
             <ng-template pTemplate="emptymessage" let-columns>
               <tr class="text-center">
@@ -83,7 +92,7 @@
       </div>
 
       <div class="modal-footer mx-auto">
-        <button class="btn btn-primary btn-block">Submit</button>
+        <button class="btn btn-primary btn-block" (click)="userOperations('update')">Submit</button>
       </div>
 
     </div>

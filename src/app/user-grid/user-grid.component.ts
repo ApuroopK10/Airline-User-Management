@@ -129,6 +129,44 @@ export class UserGridComponent implements OnInit {
             this.addUser = false;
           }
         );
+    } else {
+      this.opsService
+        .userOperations(
+          {
+            updateUser: this.editUser,
+          },
+          'updateUser'
+        )
+        .subscribe(
+          (response) => {
+            if (
+              response &&
+              response['success'] &&
+              response['data'] &&
+              response['data']['updatedUser']
+            ) {
+              const updatedIdx = this.allUsers.findIndex(
+                (user) => user._id === response['data']['updatedUser']['_id']
+              );
+              this.allUsers[updatedIdx] = {
+                ...response['data']['updatedUser'],
+              };
+            }
+            this.isLoading = false;
+            this.addUser = false;
+            this.editUser = new User('', '', '', '', []);
+            this.modalRef.nativeElement.click();
+          },
+          (error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: `Failed to Update User - ${error}`,
+            });
+            this.isLoading = false;
+            this.addUser = false;
+          }
+        );
     }
   }
 
