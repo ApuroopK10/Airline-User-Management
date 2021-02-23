@@ -10,16 +10,18 @@ import { LoginService } from './services/login.service';
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
-  providers: [MessageService]
+  providers: [MessageService],
 })
 export class LoginPageComponent implements OnInit {
-
   signUpForm = false;
   user: User = new User('', '', '', '', []);
   userRoles;
   isLoading = false;
-  constructor(private router: Router, private loginService: LoginService, 
-    private messageService: MessageService) { }
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.userRoles = roles;
@@ -29,21 +31,35 @@ export class LoginPageComponent implements OnInit {
     this.signUpForm = !this.signUpForm;
   }
 
-  submitForm() {
+  authenticate() {
     this.isLoading = true;
-    const { name, email, password, role} = this.user
-    if(this.signUpForm) {
-      this.loginService.signUp({name, email, password, role: role['value']}).subscribe(data => {
-        timer(500).subscribe(e => {
-        this.isLoading = false;
-        this.messageService.add({severity: 'success', life: 5000 , summary: 'Success', detail: 'Signup complete'});
-        this.router.navigate(['/landing']);
+    const { name, email, password, role, children } = this.user;
+    const serviceType = this.signUpForm ? 'signUp' : 'login';
+    const payload = this.signUpForm
+      ? { name, email, password, role: role['value'], children }
+      : { email, password };
+    this.loginService.authenticate(payload, serviceType).subscribe(
+      (response) => {
+        timer(500).subscribe((e) => {
+          this.isLoading = false;
+          this.loginService.setUserData(response['data']);
+          this.messageService.add({
+            severity: 'success',
+            life: 5000,
+            summary: 'Success',
+            detail: `${serviceType} complete`,
+          });
+          this.router.navigate(['/landing']);
         });
-      }, error => {
-        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to Sign-in'});
+      },
+      (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: `Failed to ${serviceType}`,
+        });
         this.isLoading = false;
-      });
-    }
-    
+      }
+    );
   }
 }

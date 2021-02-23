@@ -4,7 +4,7 @@
 <div class="container d-flex justify-content-center">
 
   <div class="d-flex flex-column justify-content-between">
-    <p-toast position="top-center"></p-toast>
+    <p-toast position="center"></p-toast>
 
 
     <div class="card mt-3 p-5">
@@ -43,7 +43,7 @@
           <p-dropdown [options]="userRoles" [(ngModel)]="user.role" [ngModelOptions]="{standalone: true}"
             optionLabel="label" placeholder="Select role"></p-dropdown>
         </div>
-        <button class="btn btn-primary btn-block btn-lg mt-1 mb-2" type="submit" (click)="submitForm()">
+        <button class="btn btn-primary btn-block btn-lg mt-1 mb-2" type="submit" (click)="authenticate()">
           <span>{{signUpForm ? 'Sign Up' : 'Login'}}<i class="fas fa-long-arrow-alt-right ml-2"></i></span>
         </button>
       </form>
