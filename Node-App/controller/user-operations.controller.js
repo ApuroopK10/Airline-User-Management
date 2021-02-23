@@ -28,25 +28,27 @@ exports.getAllUsers = asyncHandler(async (req, res, next) => {
 
 exports.createUser = asyncHandler(async (req, res, next) => {
   const { newUser, parentUser } = req.body;
+  // save new user
   const user = await User.create(newUser);
   console.log("user-", user);
   let parent;
   if (user) {
+    // update child id in parent
     parentUser.children.push(user._id);
     parent = await User.findByIdAndUpdate(parentUser._id, parentUser, {
       new: true,
       runValidators: true,
     });
   }
-
   let childUsers = [];
   if (parent) {
-    childUsers = await User.find().where("_id").in(parent._id).exec();
+    // return all the children
+    childUsers = await User.find().where("_id").in(parent.children).exec();
   }
 
-  res.status(201).json({
+  res.status(200).json({
     success: true,
-    data: childUsers,
+    data: { gridData: childUsers, parent },
   });
 });
 
@@ -58,15 +60,35 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    data: user,
+    data: user, // check
   });
 });
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
-  const response = await User.findByIdAndDelete(req.body.id);
+  const { id, parentUser } = req.body;
+  const response = await User.findByIdAndDelete(id);
+  let parent;
+  if (response) {
+    // splice child id from parent & update parent
+    parentUser.children.splice(
+      parentUser.children.findIndex((parentId) => parentId === id),
+      1
+    );
+    // get all children for the parent
+    parent = await User.findByIdAndUpdate(parentUser._id, parentUser, {
+      new: true,
+      runValidators: true,
+    });
+  }
+  let childUsers = [];
+  if (parent) {
+    // return all the children
+    childUsers = await User.find().where("_id").in(parent.children).exec();
+  }
+
   console.log("resp", response);
   res.status(200).json({
     success: true,
-    data: {},
+    data: { gridData: childUsers, parent },
   });
 });
