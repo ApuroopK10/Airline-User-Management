@@ -52,11 +52,11 @@ export class LoginPageComponent implements OnInit {
           this.router.navigate(['/landing']);
         });
       },
-      (error) => {
+      (apiError) => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: `Failed to ${serviceType}`,
+          detail: `Failed to ${serviceType} - ${apiError.error.error}`,
         });
         this.isLoading = false;
       }

@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const connectDB = require("./config/db");
-const errorHandler = require("./Utils/errorResponse");
+const errorHandler = require("./middleware/error");
 const cookieParser = require("cookie-parser");
 // Connect to database
 connectDB();
