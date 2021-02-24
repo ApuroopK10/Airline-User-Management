@@ -41,7 +41,7 @@ app.use(
   })
 );
 
-app.use(cookieParser);
+app.use(cookieParser());
 
 app.get("/test", (req, res) => {
   res.send("running on port 3000");
