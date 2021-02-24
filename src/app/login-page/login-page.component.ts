@@ -43,12 +43,12 @@ export class LoginPageComponent implements OnInit {
         timer(500).subscribe((e) => {
           this.isLoading = false;
           this.loginService.setUserData(response['data']);
-          this.messageService.add({
-            severity: 'success',
-            life: 5000,
-            summary: 'Success',
-            detail: `${serviceType} complete`,
-          });
+          // this.messageService.add({
+          //   severity: 'success',
+          //   life: 5000,
+          //   summary: 'Success',
+          //   detail: `${serviceType} complete`,
+          // });
           this.router.navigate(['/landing']);
         });
       },

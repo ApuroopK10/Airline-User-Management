@@ -35,7 +35,7 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
   return await enteredPassword.localeCompare(this.password);
 };
 
-UserSchema.methods.getJwtToken = () => {
+UserSchema.methods.generateJWT = () => {
   return jwt.sign({ id: this._id }, "secret1235486efwfwef", {
     expiresIn: 300,
   });

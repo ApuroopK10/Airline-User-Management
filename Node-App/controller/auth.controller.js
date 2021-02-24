@@ -37,7 +37,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 
 const sendTokenResponse = (user, statusCode, res) => {
   // Create token
-  const token = user.getSignedJwtToken();
+  const token = user.generateJWT();
 
   const options = {
     expires: new Date(
