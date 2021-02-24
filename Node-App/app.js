@@ -3,7 +3,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const connectDB = require("./config/db");
-
+const errorHandler = require("./Utils/errorResponse");
+const cookieParser = require("cookie-parser");
 // Connect to database
 connectDB();
 
@@ -40,6 +41,8 @@ app.use(
   })
 );
 
+app.use(cookieParser);
+
 app.get("/test", (req, res) => {
   res.send("running on port 3000");
 });
@@ -47,13 +50,16 @@ app.get("/test", (req, res) => {
 app.use("/authenticate", authenticateRoute);
 app.use("/operations", userOpsRoute);
 
+// to handle errors related to application
+app.use(errorHandler);
+
 // Catch uncaught exceptions and rejections
 process.on("uncaughtException", (err) => {
   console.log("uncaughtException->", err);
 });
 
 // App listening on port
-const server = app.listen(3002, function () {
+const server = app.listen(3003, function () {
   console.log("Node-App listening on port 3000!");
 });
 

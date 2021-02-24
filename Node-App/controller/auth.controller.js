@@ -4,7 +4,7 @@ const ErrorResponse = require("../utils/errorResponse");
 
 exports.signUp = asyncHandler(async (req, res) => {
   const { name, email, role, password, children } = req.body;
-  const response = await User.create({
+  const user = await User.create({
     name,
     email,
     password,
@@ -12,37 +12,38 @@ exports.signUp = asyncHandler(async (req, res) => {
     children,
   });
 
+  // token generation
+
+  const token = user.getJwtToken();
+
   res.status(201).json({
     success: true,
-    data: response,
+    data: user,
+    token,
   });
 });
 
-exports.login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
+exports.login = asyncHandler(async (req, res, next) => {
+  const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+  const user = await User.findOne({ email });
 
-    if (!user) {
-      return next(new ErrorResponse("Invalid credentials", 401));
-    }
-
-    const isMatch = await user.matchPassword(password);
-
-    if (isMatch !== 0) {
-      return next(new ErrorResponse("Invalid credentials", 401));
-    }
-
-    res.status(201).json({
-      success: true,
-      data: user,
-    });
-  } catch (err) {
-    console.log("err", err);
-    res.status(400).json({
-      success: false,
-      data: err,
-    });
+  if (!user) {
+    return next(new ErrorResponse("Invalid credentials", 401));
   }
-};
+
+  const isMatch = await user.matchPassword(password);
+
+  if (isMatch !== 0) {
+    return next(new ErrorResponse("Invalid credentials", 401));
+  }
+
+  // token generation
+
+  const token = user.getJwtToken();
+
+  res.status(201).json({
+    success: true,
+    data: user,
+  });
+});
