@@ -47,6 +47,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             this.isLoading = false;
             this.loginService.setUserData(response['data']);
             this.loginService.setToken(response['token']);
+            this.loginService.setTimer(response['expiresIn']);
             // this.loginService.setAuthStatus(true);
             this.loginService.changeAuthStatus(true);
             // this.messageService.add({

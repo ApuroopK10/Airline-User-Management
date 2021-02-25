@@ -8,12 +8,11 @@ import { LoginService } from '../login-page/services/login.service';
   styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent implements OnInit {
-  constructor(private router: Router, private loginService: LoginService) {}
+  constructor(private loginService: LoginService) {}
 
   ngOnInit(): void {}
 
   onLogOut() {
     this.loginService.logOut();
-    this.router.navigate(['/']);
   }
 }
