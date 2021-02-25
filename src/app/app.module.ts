@@ -6,18 +6,19 @@ import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { UserGridComponent } from './user-grid/user-grid.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {TableModule} from 'primeng/table';
-import { HttpClientModule } from '@angular/common/http'; 
-import {ButtonModule} from 'primeng/button';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TableModule } from 'primeng/table';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from "@angular/common";
-import {ToastModule} from 'primeng/toast';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { CommonModule } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
+import { AuthInterceptor } from './login-page/services/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { MessagesModule } from 'primeng/messages';
     LoginPageComponent,
     NavBarComponent,
     UserGridComponent,
-    UserManagementComponent
+    UserManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,9 +41,11 @@ import { MessagesModule } from 'primeng/messages';
     ProgressSpinnerModule,
     DropdownModule,
     MessageModule,
-    MessagesModule
+    MessagesModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

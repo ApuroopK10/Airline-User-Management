@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { roles } from '../app.constants';
 import { User } from '../shared/models/User.model';
 import { LoginService } from './services/login.service';
@@ -12,11 +12,12 @@ import { LoginService } from './services/login.service';
   styleUrls: ['./login-page.component.scss'],
   providers: [MessageService],
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent implements OnInit, OnDestroy {
   signUpForm = false;
   user: User = new User('', '', '', '', []);
   userRoles;
   isLoading = false;
+  userAuthSub: Subscription;
   constructor(
     private router: Router,
     private loginService: LoginService,
@@ -38,28 +39,39 @@ export class LoginPageComponent implements OnInit {
     const payload = this.signUpForm
       ? { name, email, password, role: role['value'], children }
       : { email, password };
-    this.loginService.authenticate(payload, serviceType).subscribe(
-      (response) => {
-        timer(500).subscribe((e) => {
+    this.userAuthSub = this.loginService
+      .authenticate(payload, serviceType)
+      .subscribe(
+        (response) => {
+          timer(500).subscribe((e) => {
+            this.isLoading = false;
+            this.loginService.setUserData(response['data']);
+            this.loginService.setToken(response['token']);
+            // this.loginService.setAuthStatus(true);
+            this.loginService.changeAuthStatus(true);
+            // this.messageService.add({
+            //   severity: 'success',
+            //   life: 5000,
+            //   summary: 'Success',
+            //   detail: `${serviceType} complete`,
+            // });
+            this.router.navigate(['/landing']);
+          });
+        },
+        (apiError) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: `Failed to ${serviceType} - ${apiError.error.error}`,
+          });
           this.isLoading = false;
-          this.loginService.setUserData(response['data']);
-          // this.messageService.add({
-          //   severity: 'success',
-          //   life: 5000,
-          //   summary: 'Success',
-          //   detail: `${serviceType} complete`,
-          // });
-          this.router.navigate(['/landing']);
-        });
-      },
-      (apiError) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: `Failed to ${serviceType} - ${apiError.error.error}`,
-        });
-        this.isLoading = false;
-      }
-    );
+        }
+      );
+  }
+
+  ngOnDestroy() {
+    if (this.userAuthSub) {
+      this.userAuthSub.unsubscribe();
+    }
   }
 }
