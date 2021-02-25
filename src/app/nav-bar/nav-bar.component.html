@@ -19,7 +19,7 @@
           <a [routerLink]="['landing/users']" class="nav-link">Users</a>
         </li>
         <li class="nav-item">
-          <a href="/" class="nav-link">Log Out</a>
+          <a (click)="onLogOut()" class="nav-link">Log Out</a>
         </li>
       </ul>
     </div>

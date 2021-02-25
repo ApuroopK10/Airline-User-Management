@@ -5,9 +5,14 @@
     &.nav-item {
         font-size: 1.4rem;
         padding-right: 1.4rem;
+       
     }
     .fa-plane:before {
         position: relative;
         top: 10px;
     }
+    .nav-link {
+        cursor: pointer !important;
+    }
+    
 }
