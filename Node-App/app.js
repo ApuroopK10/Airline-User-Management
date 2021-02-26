@@ -18,6 +18,7 @@ const corsOptions = {
     "X-Requested-With",
     "Content-Type",
     "X-Response-Time",
+    "Authorization",
   ],
   exposedHeaders: ["X-Response-Time", "Retry"],
 };
