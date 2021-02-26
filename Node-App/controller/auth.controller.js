@@ -18,7 +18,7 @@ exports.signUp = asyncHandler(async (req, res) => {
 exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select("+password");
 
   if (!user) {
     return next(new ErrorResponse("Invalid credentials", 401));
@@ -49,5 +49,7 @@ const sendTokenResponse = (user, statusCode, res) => {
   res.status(statusCode).cookie("token", token, options).json({
     success: true,
     token,
+    data: user,
+    expiresIn: 3000,
   });
 };
