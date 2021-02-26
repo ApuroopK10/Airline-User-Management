@@ -16,7 +16,7 @@ export class LoginService {
   private token: string;
   private isAuthenticated = false;
   authStatusListener = new BehaviorSubject(false);
-  private currentAuthStatus = this.authStatusListener.asObservable();
+  currentAuthStatus = this.authStatusListener.asObservable();
   private tokenTimer: any;
 
   constructor(private httpClient: HttpClient, private router: Router) {}
@@ -29,9 +29,18 @@ export class LoginService {
     );
   }
 
+  setLoginData(data, token, expiresIn) {
+    this.setUserData(data);
+    this.setToken(token);
+    this.setAuthTimer(expiresIn);
+    // this.setAuthStatus(true);
+    this.changeAuthStatus(true);
+  }
+
   logOut() {
     this.token = null;
     this.changeAuthStatus(false);
+    clearTimeout(this.tokenTimer);
     this.router.navigate(['/']);
   }
 
@@ -40,7 +49,7 @@ export class LoginService {
     this.isAuthenticated = authStatus;
   }
 
-  setTimer(expiresIn: number) {
+  setAuthTimer(expiresIn: number) {
     this.tokenTimer = setTimeout(() => {
       this.logOut();
     }, expiresIn * 1000);
