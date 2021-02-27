@@ -1,0 +1,51 @@
+<div class="grayedout" *ngIf="isLoading">
+  <p-progressSpinner></p-progressSpinner>
+</div>
+<section id="login-section">
+  <div class="container d-flex justify-content-center">
+
+    <div class="d-flex flex-column justify-content-between">
+      <p-toast position="center"></p-toast>
+
+
+      <div class="card mt-3 p-5">
+        <div class="logo mb-3 mx-auto">
+          <i class="fa fa-plane fa-5x"></i>
+        </div>
+        <div>
+          <h4 class="text-white">Welcome to Airline Services</h4>
+        </div>
+        <div>
+          <a (click)="backToLogin()" class="mb-3 mx-auto back-login">
+            <i class="fa fa-chevron-left"></i> Back to Signin
+          </a>
+        </div>
+      </div>
+      <div class="card two bg-white px-5 py-4 mb-3">
+        <form>
+          <div class="form-group">
+            <input type="email" class="form-control" id="mail" required [(ngModel)]="user.email"
+              [ngModelOptions]="{standalone: true}" />
+            <label class="form-control-placeholder" for="mail">Email</label>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="name" required [(ngModel)]="user.name"
+              [ngModelOptions]="{standalone: true}">
+            <label class=" form-control-placeholder" for="name">Full Name</label></div>
+          <div class="form-group">
+            <input type="password" class="form-control" id="password" required [(ngModel)]="user.password"
+              [ngModelOptions]="{standalone: true}" />
+            <label class="form-control-placeholder" for="password">Password</label>
+          </div>
+          <div class="form-group mb-5">
+            <p-dropdown [options]="userRoles" [(ngModel)]="user.role" [ngModelOptions]="{standalone: true}"
+              optionLabel="label" placeholder="Select role"></p-dropdown>
+          </div>
+          <button class="btn btn-primary btn-block btn-lg mt-1 mb-2" type="submit" (click)="authenticate()">
+            <span>Sign Up<i class="fas fa-long-arrow-alt-right ml-2"></i></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
