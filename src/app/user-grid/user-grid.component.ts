@@ -1,6 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { rolesNoSuperAdmin, userData, userHeaders } from '../app.constants';
+import {
+  roles,
+  rolesNoSuperAdmin,
+  userData,
+  userHeaders,
+} from '../app.constants';
 import { LoginService } from '../login-page/services/login.service';
 import { User } from '../shared/models/User.model';
 import { UserOpsService } from './services/user-ops.service';
@@ -30,24 +35,32 @@ export class UserGridComponent implements OnInit {
 
   ngOnInit(): void {
     this.userHeaders = userHeaders;
-    this.userRoles = rolesNoSuperAdmin;
     const loggedInUser = this.loginService.getUserData();
+    this.userRoles =
+      loggedInUser.role === 'Super Admin'
+        ? rolesNoSuperAdmin
+        : [rolesNoSuperAdmin[0]];
     if (loggedInUser.children.length > 0) {
       this.opsService
         .userOperations({ ids: loggedInUser.children }, 'getAllUsers')
         .subscribe(
           (response) => {
             if (response && response['success'] && response['data']) {
+              this.displayToaster(
+                'success',
+                'Success',
+                `Fetched Users Successfully`
+              );
               this.allUsers = [...response['data']];
             }
             this.isLoading = false;
           },
           (userError) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: `Failed to get Users-${userError.error.error}`,
-            });
+            this.displayToaster(
+              'error',
+              'Error',
+              `Failed to get Users-${userError.error.error}`
+            );
             this.isLoading = false;
           }
         );
@@ -62,6 +75,15 @@ export class UserGridComponent implements OnInit {
     this.editUser = row;
   }
 
+  displayToaster(severity: string, summary: string, detail: string) {
+    this.messageService.clear();
+    this.messageService.add({
+      severity,
+      summary,
+      detail,
+    });
+  }
+
   deleteUser(rowIndex) {
     const parentUser = this.loginService.getUserData();
     this.opsService
@@ -72,6 +94,7 @@ export class UserGridComponent implements OnInit {
       .subscribe(
         (response) => {
           if (response && response['success'] && response['data']) {
+            this.displayToaster('success', 'Success', `Deleted Successfully`);
             this.allUsers = [...response['data']['gridData']];
             if (response['data']['parent']) {
               this.loginService.setUserData(response['data']['parent']);
@@ -80,11 +103,11 @@ export class UserGridComponent implements OnInit {
           this.isLoading = false;
         },
         (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: `Failed to delete Users-${error}`,
-          });
+          this.displayToaster(
+            'error',
+            'Error',
+            `Failed to delete Users-${error}`
+          );
           this.isLoading = false;
         }
       );
@@ -97,6 +120,11 @@ export class UserGridComponent implements OnInit {
 
   userOperations(type: string) {
     if (type === 'add') {
+      if (!this.user.password) {
+        this.displayToaster('error', 'Error', `Please fill out all details`);
+        this.modalRef.nativeElement.click();
+        return;
+      }
       const { name, email, password, role, children } = this.user;
       const parentUser = this.loginService.getUserData();
       this.opsService
@@ -110,6 +138,7 @@ export class UserGridComponent implements OnInit {
         .subscribe(
           (response) => {
             if (response && response['success'] && response['data']) {
+              this.displayToaster('success', 'Success', `Added Successfully`);
               this.allUsers = [...response['data']['gridData']];
               if (response['data']['parent']) {
                 this.loginService.setUserData(response['data']['parent']);
@@ -120,11 +149,11 @@ export class UserGridComponent implements OnInit {
             this.modalRef.nativeElement.click();
           },
           (addError) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: `Failed to Add User - ${addError.error.error}`,
-            });
+            this.displayToaster(
+              'error',
+              'Error',
+              `Failed to Add User - ${addError.error.error}`
+            );
             this.isLoading = false;
             this.addUser = false;
             this.modalRef.nativeElement.click();
@@ -157,13 +186,14 @@ export class UserGridComponent implements OnInit {
             this.addUser = false;
             this.editUser = new User();
             this.modalRef.nativeElement.click();
+            this.displayToaster('success', 'Success', `Updated Successfully`);
           },
           (updateError) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: `Failed to Update User - ${updateError.error.error}`,
-            });
+            this.displayToaster(
+              'error',
+              'Error',
+              `Failed to Update User - ${updateError.error.error}`
+            );
             this.isLoading = false;
             this.editUser = new User();
             this.addUser = false;

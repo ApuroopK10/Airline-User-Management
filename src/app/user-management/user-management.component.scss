@@ -53,13 +53,4 @@ $primary-overlay: rgba(50, 146, 166, 0.8);
   .bg-card {
     background-color: $primary-overlay;
   }
-
-
-}
-
-.cmnt-boxes {
-  .card:nth-child(even) {
-    // background: $primary-overlay !important;
-  }
-
 }

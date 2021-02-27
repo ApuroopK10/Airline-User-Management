@@ -58,10 +58,17 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 
 exports.updateUser = asyncHandler(async (req, res, next) => {
   const { updateUser } = req.body;
+  if (!updateUser.password) {
+    const user = await User.findOne({ _id: updateUser._id }).select(
+      "+password"
+    );
+    updateUser["password"] = user.password;
+  } else {
+    // hash password for update user profile
+    const password = await hashUtils.hashPassword(updateUser.password);
+    updateUser["password"] = password;
+  }
 
-  // hash password for update user
-  const password = await hashUtils.hashPassword(updateUser.password);
-  updateUser["password"] = password;
   const updatedUser = await User.findByIdAndUpdate(updateUser._id, updateUser, {
     new: true,
     runValidators: true,
