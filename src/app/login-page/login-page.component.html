@@ -22,20 +22,31 @@
         </button>
       </div>
       <div class="card two bg-white px-5 py-4 mb-3">
-        <form>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
-            <input type="email" class="form-control" id="mail" required [(ngModel)]="user.email"
-              [ngModelOptions]="{standalone: true}" />
-            <label class="form-control-placeholder" for="mail">Email</label>
+            <input type="email" class="form-control" id="email" formControlName="email"
+              [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+            </div>
+            <label class="form-control-placeholder" for="email">Email</label>
           </div>
+
           <div class="form-group">
-            <input type="password" class="form-control" id="password" required [(ngModel)]="user.password"
-              [ngModelOptions]="{standalone: true}" />
+            <input type="password" class="form-control" id="password" formControlName="password"
+              [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">Password must be 6 characters long</div>
+            </div>
             <label class="form-control-placeholder" for="password">Password</label>
           </div>
-          <button class="btn btn-primary btn-block btn-lg mt-1 mb-2" type="submit" (click)="authenticate()">
-            <span>Login<i class="fas fa-long-arrow-alt-right ml-2"></i></span>
-          </button>
+
+          <div class="form-group">
+            <button class="btn btn-primary btn-block btn-lg mt-1 mb-2" type="submit">
+              <span>Login<i class="fas fa-long-arrow-alt-right ml-2"></i></span>
+            </button>
+          </div>
+
         </form>
       </div>
     </div>

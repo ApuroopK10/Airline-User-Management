@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription, timer } from 'rxjs';
@@ -16,14 +17,35 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   userRoles;
   isLoading = false;
   userAuthSub: Subscription;
+  loginForm: FormGroup;
+  submitted = false;
   constructor(
     private router: Router,
     private loginService: LoginService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.userRoles = roles;
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
+
+  // getter method for form control fields to validate
+  get f() {
+    return this.loginForm.controls;
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.loginForm.invalid) {
+      return;
+    }
+    this.authenticate();
   }
 
   enableSignUp() {
@@ -32,7 +54,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   authenticate() {
     this.isLoading = true;
-    const { email, password } = this.user;
+    const { email, password } = this.loginForm.value;
     const serviceType = 'login';
     const payload = { email, password };
     this.userAuthSub = this.loginService
