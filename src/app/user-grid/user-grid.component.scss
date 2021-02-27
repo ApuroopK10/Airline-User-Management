@@ -1,14 +1,13 @@
 .user-header {
-    background: #f4f4f4;
-    padding: 10px;
-    margin-top: 5rem;
+  background: #f4f4f4;
+  padding: 10px;
 }
 
 .user-action {
-    a {
-        cursor: pointer;
-        padding: 0 8px;
-    }
+  a {
+    cursor: pointer;
+    padding: 0 8px;
+  }
 }
 
 .text-responsive {
@@ -16,15 +15,15 @@
 }
 
 :host ::ng-deep .ui-table-scrollable-header {
-    background-color: #f4f4f4;
+  background-color: #f4f4f4;
 }
 
 :host ::ng-deep .ui-table-scrollable-view {
-    border: 1px solid #c8c8c8;
+  border: 1px solid #c8c8c8;
 }
 
 .search {
-    position: relative;
-    top: 5px;
-    right: 25px;
+  position: relative;
+  top: 5px;
+  right: 25px;
 }
