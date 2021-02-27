@@ -10,11 +10,9 @@ import { LoginService } from './services/login.service';
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
-  providers: [MessageService],
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
-  signUpForm = false;
-  user: User = new User('', '', '', '', []);
+  user: User = new User();
   userRoles;
   isLoading = false;
   userAuthSub: Subscription;
@@ -29,16 +27,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   enableSignUp() {
-    this.signUpForm = !this.signUpForm;
+    this.router.navigate(['/signup']);
   }
 
   authenticate() {
     this.isLoading = true;
-    const { name, email, password, role, children } = this.user;
-    const serviceType = this.signUpForm ? 'signUp' : 'login';
-    const payload = this.signUpForm
-      ? { name, email, password, role: role['value'], children }
-      : { email, password };
+    const { email, password } = this.user;
+    const serviceType = 'login';
+    const payload = { email, password };
     this.userAuthSub = this.loginService
       .authenticate(payload, serviceType)
       .subscribe(
