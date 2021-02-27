@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light fixed-top py-4">
+<nav class="navbar navbar-expand-md navbar-light sticky-top py-4">
   <div class="container">
     <a href="javascript:void(0)" [routerLink]="['landing']" class="navbar-brand">
       <i class="fa fa-plane fa-2x"></i>
@@ -13,9 +13,9 @@
           <a [routerLink]="['landing']" class="nav-link">Home</a>
         </li>
         <li class="nav-item">
-          <a [routerLink]="['landing']" class="nav-link">Profile</a>
+          <a [routerLink]="['landing/profile']" class="nav-link">Profile</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="loggedInUser !== 'User'">
           <a [routerLink]="['landing/users']" class="nav-link">Users</a>
         </li>
         <li class="nav-item">

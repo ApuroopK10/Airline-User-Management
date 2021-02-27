@@ -19,6 +19,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { AuthInterceptor } from './login-page/services/auth-interceptor';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { SignupComponent } from './signup/signup.component';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,8 @@ import { AuthInterceptor } from './login-page/services/auth-interceptor';
     NavBarComponent,
     UserGridComponent,
     UserManagementComponent,
+    UserProfileComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +50,7 @@ import { AuthInterceptor } from './login-page/services/auth-interceptor';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    MessageService,
   ],
   bootstrap: [AppComponent],
 })

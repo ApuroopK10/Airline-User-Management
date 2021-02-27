@@ -9,8 +9,10 @@ import { LoginService } from '../login-page/services/login.service';
 })
 export class NavBarComponent implements OnInit {
   constructor(private loginService: LoginService) {}
-
-  ngOnInit(): void {}
+  loggedInUser: string;
+  ngOnInit(): void {
+    this.loggedInUser = this.loginService.getUserData().role;
+  }
 
   onLogOut() {
     this.loginService.logOut();
