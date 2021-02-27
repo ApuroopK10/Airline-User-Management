@@ -16,8 +16,8 @@ export class UserGridComponent implements OnInit {
   userHeaders;
   editUser: User;
   deleteIndex;
-  user: User = new User('', '', '', '', []);
-  userRoles;
+  user: User = new User();
+  userRoles: Array<object>;
   addUser = false;
   isLoading = false;
   parentUser: User;
@@ -42,11 +42,11 @@ export class UserGridComponent implements OnInit {
             }
             this.isLoading = false;
           },
-          (error) => {
+          (userError) => {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: `Failed to get Users-${error}`,
+              detail: `Failed to get Users-${userError.error.error}`,
             });
             this.isLoading = false;
           }
@@ -92,7 +92,7 @@ export class UserGridComponent implements OnInit {
 
   addClicked() {
     this.addUser = true;
-    this.user = new User('', '', '', '', []);
+    this.user = new User();
   }
 
   userOperations(type: string) {
@@ -119,14 +119,15 @@ export class UserGridComponent implements OnInit {
             this.addUser = false;
             this.modalRef.nativeElement.click();
           },
-          (error) => {
+          (addError) => {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: `Failed to create Users - ${error}`,
+              detail: `Failed to Add User - ${addError.error.error}`,
             });
             this.isLoading = false;
             this.addUser = false;
+            this.modalRef.nativeElement.click();
           }
         );
     } else {
@@ -154,17 +155,19 @@ export class UserGridComponent implements OnInit {
             }
             this.isLoading = false;
             this.addUser = false;
-            this.editUser = new User('', '', '', '', []);
+            this.editUser = new User();
             this.modalRef.nativeElement.click();
           },
-          (error) => {
+          (updateError) => {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: `Failed to Update User - ${error}`,
+              detail: `Failed to Update User - ${updateError.error.error}`,
             });
             this.isLoading = false;
+            this.editUser = new User();
             this.addUser = false;
+            this.modalRef.nativeElement.click();
           }
         );
     }

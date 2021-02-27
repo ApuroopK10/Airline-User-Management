@@ -1,6 +1,7 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const User = require("../models/User");
+const hashUtils = require("../Utils/hash");
 
 exports.getUser = asyncHandler(async (req, res, next) => {
   const response = await User.findById(req.body.id);
@@ -22,15 +23,18 @@ exports.getAllUsers = asyncHandler(async (req, res, next) => {
       new ErrorResponse(`User not found with id ${req.body.id}`, 404)
     );
   }
-  // return response;
   res.status(200).json({ success: true, data: response });
 });
 
 exports.createUser = asyncHandler(async (req, res, next) => {
   const { newUser, parentUser } = req.body;
+
+  // hash password for new user
+  const password = await hashUtils.hashPassword(newUser.password);
+  newUser["password"] = password;
+
   // save new user
   const user = await User.create(newUser);
-  console.log("user-", user);
   let parent;
   if (user) {
     // update child id in parent
@@ -54,6 +58,10 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 
 exports.updateUser = asyncHandler(async (req, res, next) => {
   const { updateUser } = req.body;
+
+  // hash password for update user
+  const password = await hashUtils.hashPassword(updateUser.password);
+  updateUser["password"] = password;
   const updatedUser = await User.findByIdAndUpdate(updateUser._id, updateUser, {
     new: true,
     runValidators: true,
