@@ -65,6 +65,7 @@ export class LoginService {
 
   setUserData(user: User) {
     this.userData = user;
+    localStorage.setItem('userData', JSON.stringify(this.userData));
   }
 
   getUserData(): User {
