@@ -34,3 +34,32 @@ $primary-overlay: rgba(50, 146, 166, 0.8);
   }
 
 }
+
+
+#explore-section .fas {
+  color: #fff;
+  background: black;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#boxes {
+  color: $primary !important;
+
+  .card {
+    border: 1px solid #3292a6 !important;
+  }
+
+  .bg-card {
+    background-color: $primary-overlay;
+  }
+
+
+}
+
+.cmnt-boxes {
+  .card:nth-child(even) {
+    // background: $primary-overlay !important;
+  }
+
+}
