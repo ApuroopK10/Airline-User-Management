@@ -66,6 +66,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             detail: `Failed to ${serviceType} - ${apiError.error.error}`,
           });
           this.isLoading = false;
+          this.loginService.changeAuthStatus(false);
         }
       );
   }

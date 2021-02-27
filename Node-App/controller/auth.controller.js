@@ -50,6 +50,6 @@ const sendTokenResponse = (user, statusCode, res) => {
     success: true,
     token,
     data: user,
-    expiresIn: 3000,
+    expiresIn: 300,
   });
 };
