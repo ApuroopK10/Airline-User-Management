@@ -39,13 +39,14 @@ exports.login = asyncHandler(async (req, res, next) => {
 // Get token from model, create cookie and send response
 
 const sendTokenResponse = (user, statusCode, res) => {
+  const { name, email, role, children, _id } = user;
   // Create token
   const token = user.generateJWT();
 
   res.status(statusCode).json({
     success: true,
     token,
-    data: user,
+    data: { name, email, role, children, _id },
     expiresIn: 300,
   });
 };
