@@ -1,9 +1,11 @@
 const User = require("../models/User");
 const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
+const hashUtils = require("../Utils/hash");
 
 exports.signUp = asyncHandler(async (req, res) => {
-  const { name, email, role, password, children } = req.body;
+  const { name, email, role, children } = req.body;
+  const password = await hashUtils.hashPassword(req.body.password);
   const user = await User.create({
     name,
     email,
@@ -24,9 +26,10 @@ exports.login = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Invalid credentials", 401));
   }
 
-  const isMatch = await user.matchPassword(password);
+  const dbPassword = user.password;
+  const isMatch = await user.matchPassword(password, dbPassword);
 
-  if (isMatch !== 0) {
+  if (!isMatch) {
     return next(new ErrorResponse("Invalid credentials", 401));
   }
 
@@ -39,14 +42,7 @@ const sendTokenResponse = (user, statusCode, res) => {
   // Create token
   const token = user.generateJWT();
 
-  const options = {
-    expires: new Date(
-      Date.now() + 1 * 1 * 5 * 60 * 1000 // will expire in 5 min
-    ),
-    httpOnly: true,
-  };
-
-  res.status(statusCode).cookie("token", token, options).json({
+  res.status(statusCode).json({
     success: true,
     token,
     data: user,

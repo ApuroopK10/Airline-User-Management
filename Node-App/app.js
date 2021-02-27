@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 const connectDB = require("./config/db");
 const errorHandler = require("./middleware/error");
-const cookieParser = require("cookie-parser");
+
 // Connect to database
 connectDB();
 
@@ -41,8 +41,6 @@ app.use(
     limit: "50mb",
   })
 );
-
-app.use(cookieParser());
 
 app.get("/test", (req, res) => {
   res.send("running on port 3000");

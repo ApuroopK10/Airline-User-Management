@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 // Create Schema
 const UserSchema = new mongoose.Schema({
@@ -33,8 +34,12 @@ const UserSchema = new mongoose.Schema({
   ],
 });
 
-UserSchema.methods.matchPassword = async function (enteredPassword) {
-  return await enteredPassword.localeCompare(this.password);
+// Match user entered password to hashed password in database
+UserSchema.methods.matchPassword = async function (
+  enteredPassword,
+  dbPassword
+) {
+  return await bcrypt.compare(enteredPassword, dbPassword);
 };
 
 UserSchema.methods.generateJWT = () => {
