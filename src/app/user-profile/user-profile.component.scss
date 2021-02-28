@@ -117,3 +117,8 @@ small {
   }
 
 }
+
+:host ::ng-deep .drop-down .ui-dropdown {
+  width: 65%;
+  min-width: 0;
+}

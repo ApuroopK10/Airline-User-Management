@@ -74,7 +74,7 @@
                 </div>
                 <div class="col-md-6">
                   <p *ngIf="!editMode">{{ loggedInUser.role }}</p>
-                  <div *ngIf="editMode">
+                  <div *ngIf="editMode" class="drop-down">
                     <p-dropdown [options]="userRoles" [ngModelOptions]="{standalone: true}"
                       [(ngModel)]="loggedInUser.role" placeholder="Select role"></p-dropdown>
                   </div>
@@ -99,7 +99,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="editMode" class="col-12 mx-auto d-flex justify-content-center mt-2">
+        <div *ngIf="editMode" class="col-12 mx-auto d-flex justify-content-center mt-4">
           <div class="form-group px-2">
             <button class="btn btn-primary btn-block mt-1 mb-2" type="submit" (click)="updateProfile()">
               <span>Update</span>
