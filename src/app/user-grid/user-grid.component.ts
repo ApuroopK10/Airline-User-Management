@@ -224,13 +224,13 @@ export class UserGridComponent implements OnInit, OnDestroy {
       this.createSub.unsubscribe();
     }
     if (this.updateSub) {
-      this.createSub.unsubscribe();
+      this.updateSub.unsubscribe();
     }
     if (this.deleteSub) {
-      this.createSub.unsubscribe();
+      this.deleteSub.unsubscribe();
     }
     if (this.getSub) {
-      this.createSub.unsubscribe();
+      this.getSub.unsubscribe();
     }
   }
 }
