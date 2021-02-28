@@ -85,7 +85,8 @@
                   <p *ngIf="!editMode">{{ loggedInUser.role }}</p>
                   <div *ngIf="editMode" class="drop-down">
                     <p-dropdown [options]="userRoles" formControlName="role"
-                      [ngClass]="{ 'is-invalid': submitted && f.role.errors }" placeholder="Select role"></p-dropdown>
+                      [ngClass]="{ 'is-invalid': submitted && f.role.errors }" placeholder="Select role"
+                      [disabled]="true"></p-dropdown>
                     <div *ngIf="submitted && f.role.errors" class="invalid-feedback">
                       <div *ngIf="f.role.errors.required">Role is required</div>
                     </div>
