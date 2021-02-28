@@ -4,7 +4,7 @@ $primary-overlay: rgba(50, 146, 166, 0.8);
 #showcase {
   position: relative;
   background: url('../../assets/airlines-landing.jpg');
-  min-height: 600px;
+  min-height: 500px;
 
   .primary-overlay {
     background: $primary-overlay;
@@ -26,10 +26,16 @@ $primary-overlay: rgba(50, 146, 166, 0.8);
 
 @media(max-width: 768px) {
   #showcase {
-    min-height: 500px;
+    min-height: 570px;
 
     h1 {
       font-size: 4rem;
+    }
+  }
+
+  #boxes {
+    .mb-resp {
+      margin-bottom: 1rem;
     }
   }
 
