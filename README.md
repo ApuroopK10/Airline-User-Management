@@ -1,10 +1,16 @@
 # AirlineMgmt
 
+This is a MEAN Stack (MongoDB, Express.js, Angular 9, Node.js) Resposive Web application mainly focused on Airline User Management.
+Incorporated Session and Authentication using JWT. Used Bootstrap 4 for responsiveness.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.1.
+Utilised HTTP Interceptors and Auth Guards for Authentication & Authorization.
+Added custom Error Handlers, Protected Routes at Node side.
+Resposive Grid with User Search functionality.
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `node app.js` for running Node server (`Airline-Mgmt\Node-App\app.js`)
 
 ## Code scaffolding
 
