@@ -1,1 +1,119 @@
-<p>User Profile works</p>
+<section>
+  <div class="grayedout" *ngIf="isLoading">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+  <div class="container emp-profile">
+    <form method="post">
+      <div class="row">
+        <div class="col-3">
+          <div class="profile-work">
+            <p>SKILLS</p>
+            <a href="javascript:void(0)">{{ header.role }}</a><br />
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="profile-head">
+            <h5>
+              {{ header.name | titlecase  }}
+            </h5>
+            <h6>
+              {{ header.role }}
+            </h6>
+            <ul *ngIf="!editMode" class="nav nav-tabs mb-2 nav-justified" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                  aria-selected="true">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                  aria-controls="profile" aria-selected="false">Timeline</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div *ngIf="!editMode" class="col-3 px-0 ml-n3">
+          <input type="submit" class="profile-edit-btn" (click)="toggleEdit()" name="btnAddMore" value="Edit Profile" />
+        </div>
+      </div>
+      <div class="row main-profile" [ngClass]="{'pt-4': editMode}">
+        <div class="col-md-6 offset-3">
+          <div class="tab-content profile-tab" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <div class="row" [ngClass]="{'pb-4': editMode}">
+                <div class="col-md-6">
+                  <label>Name</label>
+                </div>
+                <div class="col-md-6">
+                  <p *ngIf="!editMode">{{ loggedInUser.name | titlecase  }}</p>
+                  <input *ngIf="editMode" type="name" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="loggedInUser.name">
+                </div>
+              </div>
+              <div class="row" [ngClass]="{'pb-4': editMode}">
+                <div class="col-md-6">
+                  <label>Email</label>
+                </div>
+                <div class="col-md-6">
+                  <p *ngIf="!editMode">{{ loggedInUser.email}}</p>
+                  <input *ngIf="editMode" type="email" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="loggedInUser.email">
+                </div>
+              </div>
+              <div *ngIf="editMode" class="row" [ngClass]="{'pb-4': editMode}">
+                <div class="col-md-6">
+                  <label>Password</label>
+                </div>
+                <div class="col-md-6">
+                  <input *ngIf="editMode" type="password" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="loggedInUser.password">
+                </div>
+              </div>
+              <div class="row" [ngClass]="{'pb-4': editMode}">
+                <div class="col-md-6">
+                  <label>Role</label>
+                </div>
+                <div class="col-md-6">
+                  <p *ngIf="!editMode">{{ loggedInUser.role }}</p>
+                  <div *ngIf="editMode">
+                    <p-dropdown [options]="userRoles" [ngModelOptions]="{standalone: true}"
+                      [(ngModel)]="loggedInUser.role" placeholder="Select role"></p-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Experience</label>
+                </div>
+                <div class="col-md-6">
+                  <p>Expert {{loggedInUser.role}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Bio</label><br />
+                  <p>{{ loggedInUser.role }} at Airline Services</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="editMode" class="col-12 mx-auto d-flex justify-content-center mt-2">
+          <div class="form-group px-2">
+            <button class="btn btn-primary btn-block mt-1 mb-2" type="submit" (click)="updateProfile()">
+              <span>Update</span>
+            </button>
+          </div>
+          <div class="form-group px-2">
+            <button class="btn btn-primary btn-block mt-1 mb-2" (click)="toggleEdit()">
+              <span>Cancel</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <p-toast position="center"></p-toast>
+</section>
