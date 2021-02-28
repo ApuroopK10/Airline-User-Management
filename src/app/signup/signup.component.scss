@@ -86,3 +86,9 @@ p.mb-1 {
 .is-invalid {
   border-bottom: 1px solid #dc3545 !important;
 }
+
+.label-invalid {
+  position: absolute;
+  bottom: 40px;
+  left: 10px;
+}

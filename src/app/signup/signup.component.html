@@ -27,25 +27,28 @@
             <input type="email" class="form-control" id="email" formControlName="email"
               [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors">Enter a valid Email</div>
             </div>
-            <label class="form-control-placeholder" for="email">Email</label>
+            <label class="form-control-placeholder" [ngClass]="{ 'label-invalid': submitted && f.email.errors }"
+              for="email">Email</label>
           </div>
           <div class="form-group">
             <input type="text" class="form-control" id="name" formControlName="name"
               [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
             <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-              <div *ngIf="f.name.errors.required">Full Name is required</div>
+              <div *ngIf="f.name.errors">Full Name is required</div>
             </div>
-            <label class="form-control-placeholder" for="name">Full Name</label>
+            <label class="form-control-placeholder" [ngClass]="{ 'label-invalid': submitted && f.name.errors }"
+              for="name">Full Name</label>
           </div>
           <div class="form-group">
             <input type="password" class="form-control" id="password" formControlName="password"
               [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
             <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-              <div *ngIf="f.password.errors.required">Password must be 6 characters long</div>
+              <div *ngIf="f.password.errors">Password must be 6 minimum characters long</div>
             </div>
-            <label class="form-control-placeholder" for="password">Password</label>
+            <label class="form-control-placeholder" [ngClass]="{ 'label-invalid': submitted && f.password.errors }"
+              for="password">Password</label>
           </div>
           <div class="form-group mb-5 drop-down">
             <p-dropdown [options]="userRoles" optionLabel="label" placeholder="Select role" formControlName="role"
