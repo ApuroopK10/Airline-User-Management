@@ -44,7 +44,7 @@ UserSchema.methods.matchPassword = async function (
 
 UserSchema.methods.generateJWT = () => {
   return jwt.sign({ id: this._id }, "secret1235486efwfwef", {
-    expiresIn: 300,
+    expiresIn: 600,
   });
 };
 

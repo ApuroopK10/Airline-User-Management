@@ -47,6 +47,6 @@ const sendTokenResponse = (user, statusCode, res) => {
     success: true,
     token,
     data: { name, email, role, children, _id },
-    expiresIn: 300,
+    expiresIn: 600,
   });
 };
