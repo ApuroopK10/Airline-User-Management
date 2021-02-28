@@ -1,11 +1,10 @@
+// custom error handler to return error response to UI
 const ErrorResponse = require("../utils/errorResponse");
 
 const errorHandler = (err, req, res, next) => {
   let error = { ...err };
 
   error.message = err.message;
-
-  console.log(err);
 
   if (err.name === "CastError") {
     const message = `Resource not found`;

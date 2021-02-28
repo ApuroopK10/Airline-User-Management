@@ -3,7 +3,7 @@ const asyncHandler = require("./async");
 const ErrorResponse = require("../utils/errorResponse");
 const User = require("../models/User");
 
-// Protect routes
+// Protect routes for authorization
 exports.protect = asyncHandler(async (req, res, next) => {
   let token;
 

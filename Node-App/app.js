@@ -20,7 +20,7 @@ const corsOptions = {
     "X-Response-Time",
     "Authorization",
   ],
-  exposedHeaders: ["X-Response-Time", "Retry"],
+  exposedHeaders: ["X-Response-Time"],
 };
 
 //Enable CORS
@@ -42,10 +42,7 @@ app.use(
   })
 );
 
-app.get("/test", (req, res) => {
-  res.send("running on port 3000");
-});
-
+// app routes
 app.use("/authenticate", authenticateRoute);
 app.use("/operations", userOpsRoute);
 
@@ -55,13 +52,15 @@ app.use(errorHandler);
 // Catch uncaught exceptions and rejections
 process.on("uncaughtException", (err) => {
   console.log("uncaughtException->", err);
+  server.close(() => process.exit(1));
 });
 
 // App listening on port
 const server = app.listen(3003, function () {
-  console.log("Node-App listening on port 3000!");
+  console.log("Node-App listening on port 3003!");
 });
 
+// Catch unhandled rejections
 process.on("unhandledRejection", (err) => {
   console.log("unhandledRejection->", err);
   server.close(() => process.exit(1));
