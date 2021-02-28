@@ -73,12 +73,6 @@ export class SignupComponent implements OnInit {
               response['token'],
               response['expiresIn']
             );
-            // this.messageService.add({
-            //   severity: 'success',
-            //   life: 5000,
-            //   summary: 'Success',
-            //   detail: `${serviceType} complete`,
-            // });
             this.router.navigate(['/landing']);
           });
         },

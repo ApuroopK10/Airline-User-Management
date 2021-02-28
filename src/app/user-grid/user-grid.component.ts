@@ -1,5 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
 import {
   roles,
   rolesNoSuperAdmin,
@@ -16,7 +23,7 @@ import { UserOpsService } from './services/user-ops.service';
   styleUrls: ['./user-grid.component.scss'],
   providers: [MessageService],
 })
-export class UserGridComponent implements OnInit {
+export class UserGridComponent implements OnInit, OnDestroy {
   allUsers = [];
   userHeaders;
   editUser: User;
@@ -27,6 +34,11 @@ export class UserGridComponent implements OnInit {
   isLoading = false;
   parentUser: User;
   @ViewChild('modalRef') private modalRef: ElementRef;
+  createSub: Subscription;
+  updateSub: Subscription;
+  deleteSub: Subscription;
+  getSub: Subscription;
+  // createSub: Subscription;
   constructor(
     private opsService: UserOpsService,
     private loginService: LoginService,
@@ -41,7 +53,7 @@ export class UserGridComponent implements OnInit {
         ? rolesNoSuperAdmin
         : [rolesNoSuperAdmin[0]];
     if (loggedInUser.children.length > 0) {
-      this.opsService
+      this.getSub = this.opsService
         .userOperations({ ids: loggedInUser.children }, 'getAllUsers')
         .subscribe(
           (response) => {
@@ -86,7 +98,7 @@ export class UserGridComponent implements OnInit {
 
   deleteUser(rowIndex) {
     const parentUser = this.loginService.getUserData();
-    this.opsService
+    this.deleteSub = this.opsService
       .userOperations(
         { id: this.allUsers[rowIndex]._id, parentUser },
         'deleteUser'
@@ -127,7 +139,7 @@ export class UserGridComponent implements OnInit {
       }
       const { name, email, password, role, children } = this.user;
       const parentUser = this.loginService.getUserData();
-      this.opsService
+      this.createSub = this.opsService
         .userOperations(
           {
             newUser: { name, email, password, role: role['value'], children },
@@ -160,7 +172,7 @@ export class UserGridComponent implements OnInit {
           }
         );
     } else {
-      this.opsService
+      this.updateSub = this.opsService
         .userOperations(
           {
             updateUser: this.editUser,
@@ -205,5 +217,20 @@ export class UserGridComponent implements OnInit {
 
   closeModal() {
     this.modalRef.nativeElement.click();
+  }
+
+  ngOnDestroy() {
+    if (this.createSub) {
+      this.createSub.unsubscribe();
+    }
+    if (this.updateSub) {
+      this.createSub.unsubscribe();
+    }
+    if (this.deleteSub) {
+      this.createSub.unsubscribe();
+    }
+    if (this.getSub) {
+      this.createSub.unsubscribe();
+    }
   }
 }

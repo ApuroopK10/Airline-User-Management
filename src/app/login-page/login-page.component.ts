@@ -68,12 +68,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
               response['token'],
               response['expiresIn']
             );
-            // this.messageService.add({
-            //   severity: 'success',
-            //   life: 5000,
-            //   summary: 'Success',
-            //   detail: `${serviceType} complete`,
-            // });
             this.router.navigate(['/landing']);
           });
         },
