@@ -97,10 +97,6 @@ section {
 
 }
 
-small {
-  color: red;
-}
-
 @media (max-width: 768px) {
 
   .nav-justified>li {
@@ -121,4 +117,8 @@ small {
 :host ::ng-deep .drop-down .ui-dropdown {
   width: 65%;
   min-width: 0;
+}
+
+.is-invalid {
+  border: 1px solid #dc3545 !important;
 }

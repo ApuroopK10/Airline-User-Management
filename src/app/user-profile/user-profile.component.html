@@ -19,7 +19,7 @@
             <h6>
               {{ header.role }}
             </h6>
-            <ul *ngIf="!editMode" class="nav nav-tabs mb-2 nav-justified" id="myTab" role="tablist">
+            <ul *ngIf="!editMode" class="nav nav-tabs mb-2 nav-justified pt-4" id="myTab" role="tablist">
               <li class="nav-item">
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
                   aria-selected="true">About</a>
@@ -58,11 +58,7 @@
                 </div>
                 <div class="col-md-6">
                   <p *ngIf="!editMode">{{ loggedInUser.email}}</p>
-                  <input *ngIf="editMode" type="email" formControlName="email"
-                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-                  <div *ngIf="editMode && submitted && f.email.errors" class="invalid-feedback">
-                    <div *ngIf="f.email.errors">Enter a valid Email</div>
-                  </div>
+                  <input *ngIf="editMode" type="email" formControlName="email" disabled>
                 </div>
               </div>
               <div *ngIf="editMode" class="row" [ngClass]="{'pb-4': editMode}">
@@ -87,9 +83,6 @@
                     <p-dropdown [options]="userRoles" formControlName="role"
                       [ngClass]="{ 'is-invalid': submitted && f.role.errors }" placeholder="Select role"
                       [disabled]="true"></p-dropdown>
-                    <div *ngIf="submitted && f.role.errors" class="invalid-feedback">
-                      <div *ngIf="f.role.errors.required">Role is required</div>
-                    </div>
                   </div>
                 </div>
               </div>

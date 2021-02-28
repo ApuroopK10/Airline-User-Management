@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import {
@@ -38,15 +39,24 @@ export class UserGridComponent implements OnInit, OnDestroy {
   updateSub: Subscription;
   deleteSub: Subscription;
   getSub: Subscription;
-  // createSub: Subscription;
+  registerForm: FormGroup;
+  submitted = false;
+
   constructor(
     private opsService: UserOpsService,
     private loginService: LoginService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.userHeaders = userHeaders;
+    this.registerForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      role: ['', Validators.required],
+    });
     const loggedInUser = this.loginService.getUserData();
     this.userRoles =
       loggedInUser.role === 'Super Admin'
@@ -79,12 +89,23 @@ export class UserGridComponent implements OnInit, OnDestroy {
     } else {
       this.allUsers = [];
     }
+  }
 
-    // this.userData = userData;
+  // getter method for form control fields to validate
+  get f() {
+    return this.registerForm.controls;
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
+    this.userOperations('add');
   }
 
   updateUser(row) {
-    this.editUser = row;
+    this.editUser = { ...row };
   }
 
   displayToaster(severity: string, summary: string, detail: string) {
@@ -128,21 +149,25 @@ export class UserGridComponent implements OnInit, OnDestroy {
   addClicked() {
     this.addUser = true;
     this.user = new User();
+    this.submitted = false;
+    this.registerForm.reset();
   }
 
   userOperations(type: string) {
     if (type === 'add') {
-      if (!this.user.password) {
-        this.displayToaster('error', 'Error', `Please fill out all details`);
-        this.modalRef.nativeElement.click();
-        return;
-      }
-      const { name, email, password, role, children } = this.user;
+      this.submitted = true;
+      const { name, email, password, role } = this.registerForm.value;
       const parentUser = this.loginService.getUserData();
       this.createSub = this.opsService
         .userOperations(
           {
-            newUser: { name, email, password, role: role['value'], children },
+            newUser: {
+              name,
+              email,
+              password,
+              role: role['value'],
+              children: [],
+            },
             parentUser,
           },
           'createUser'
@@ -157,6 +182,7 @@ export class UserGridComponent implements OnInit, OnDestroy {
               }
             }
             this.isLoading = false;
+            this.registerForm.reset();
             this.addUser = false;
             this.modalRef.nativeElement.click();
           },
@@ -167,6 +193,7 @@ export class UserGridComponent implements OnInit, OnDestroy {
               `Failed to Add User - ${addError.error.error}`
             );
             this.isLoading = false;
+            this.registerForm.reset();
             this.addUser = false;
             this.modalRef.nativeElement.click();
           }
