@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { roles } from '../app.constants';
@@ -18,19 +19,46 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   updateSub: Subscription;
   isLoading = false;
   header;
+  updateForm: FormGroup;
+  submitted = false;
   constructor(
     private loginService: LoginService,
     private opsService: UserOpsService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.userRoles = roles;
+
     this.loggedInUser = this.loginService.getUserData();
+    this.updateForm = this.formBuilder.group({
+      name: [this.loggedInUser.name, Validators.required],
+      email: [this.loggedInUser.email, [Validators.required, Validators.email]],
+      password: [
+        this.loggedInUser.password,
+        [Validators.required, Validators.minLength(6)],
+      ],
+      role: [this.loggedInUser.role, Validators.required],
+    });
     this.header = {
       name: this.loggedInUser.name,
       role: this.loggedInUser.role,
     };
+  }
+
+  // getter method for form control fields to validate
+  get f() {
+    return this.updateForm.controls;
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.updateForm.invalid) {
+      return;
+    }
+    this.updateProfile();
   }
 
   toggleEdit() {
@@ -39,10 +67,18 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   updateProfile() {
     this.isLoading = true;
+    const { name, email, password, role } = this.updateForm.value;
     this.updateSub = this.opsService
       .userOperations(
         {
-          updateUser: this.loggedInUser,
+          updateUser: {
+            name,
+            email,
+            password,
+            role,
+            children: this.loggedInUser.children,
+            _id: this.loggedInUser['_id'],
+          },
         },
         'updateUser'
       )

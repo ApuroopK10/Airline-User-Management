@@ -3,7 +3,7 @@
     <p-progressSpinner></p-progressSpinner>
   </div>
   <div class="container emp-profile">
-    <form method="post">
+    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-3">
           <div class="profile-work">
@@ -41,12 +41,15 @@
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
               <div class="row" [ngClass]="{'pb-4': editMode}">
                 <div class="col-md-6">
-                  <label>Name</label>
+                  <label>Full Name</label>
                 </div>
                 <div class="col-md-6">
                   <p *ngIf="!editMode">{{ loggedInUser.name | titlecase  }}</p>
-                  <input *ngIf="editMode" type="name" [ngModelOptions]="{standalone: true}"
-                    [(ngModel)]="loggedInUser.name">
+                  <input *ngIf="editMode" type="name" formControlName="name"
+                    [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                  <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Full Name is required</div>
+                  </div>
                 </div>
               </div>
               <div class="row" [ngClass]="{'pb-4': editMode}">
@@ -55,17 +58,23 @@
                 </div>
                 <div class="col-md-6">
                   <p *ngIf="!editMode">{{ loggedInUser.email}}</p>
-                  <input *ngIf="editMode" type="email" [ngModelOptions]="{standalone: true}"
-                    [(ngModel)]="loggedInUser.email">
+                  <input *ngIf="editMode" type="email" formControlName="email"
+                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                  <div *ngIf="editMode && submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors">Enter a valid Email</div>
+                  </div>
                 </div>
               </div>
               <div *ngIf="editMode" class="row" [ngClass]="{'pb-4': editMode}">
                 <div class="col-md-6">
-                  <label>Password</label>
+                  <label>New Password</label>
                 </div>
                 <div class="col-md-6">
-                  <input *ngIf="editMode" type="password" [ngModelOptions]="{standalone: true}"
-                    [(ngModel)]="loggedInUser.password">
+                  <input *ngIf="editMode" type="password" formControlName="password"
+                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                  <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors">Password must be 6 characters long</div>
+                  </div>
                 </div>
               </div>
               <div class="row" [ngClass]="{'pb-4': editMode}">
@@ -75,8 +84,11 @@
                 <div class="col-md-6">
                   <p *ngIf="!editMode">{{ loggedInUser.role }}</p>
                   <div *ngIf="editMode" class="drop-down">
-                    <p-dropdown [options]="userRoles" [ngModelOptions]="{standalone: true}"
-                      [(ngModel)]="loggedInUser.role" placeholder="Select role"></p-dropdown>
+                    <p-dropdown [options]="userRoles" formControlName="role"
+                      [ngClass]="{ 'is-invalid': submitted && f.role.errors }" placeholder="Select role"></p-dropdown>
+                    <div *ngIf="submitted && f.role.errors" class="invalid-feedback">
+                      <div *ngIf="f.role.errors.required">Role is required</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -101,7 +113,7 @@
         </div>
         <div *ngIf="editMode" class="col-12 mx-auto d-flex justify-content-center mt-4">
           <div class="form-group px-2">
-            <button class="btn btn-primary btn-block mt-1 mb-2" type="submit" (click)="updateProfile()">
+            <button class="btn btn-primary btn-block mt-1 mb-2" type="submit">
               <span>Update</span>
             </button>
           </div>
