@@ -13,6 +13,7 @@ import { LoginService } from './login.service';
 export class AuthGuard implements CanActivate {
   constructor(private loginService: LoginService, private router: Router) {}
 
+  // Auth guard to authorize only authenticated users
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

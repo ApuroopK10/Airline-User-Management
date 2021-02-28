@@ -10,6 +10,7 @@ import { LoginService } from './login.service';
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private loginService: LoginService) {}
 
+  // interceptor to intercept HTTP requests and add token for auth
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const authToken = this.loginService.getToken();
     const authRequest = req.clone({

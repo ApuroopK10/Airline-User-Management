@@ -199,6 +199,11 @@ export class UserGridComponent implements OnInit, OnDestroy {
           }
         );
     } else {
+      if (this.editUser && !this.editUser.name) {
+        this.displayToaster('error', 'Error', `Full Name is required`);
+        this.closeModal();
+        return;
+      }
       this.updateSub = this.opsService
         .userOperations(
           {

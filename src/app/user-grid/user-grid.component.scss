@@ -27,3 +27,27 @@
   top: 5px;
   right: 25px;
 }
+
+.modal-footer {
+  border-top: none !important;
+}
+
+:host ::ng-deep .ui-table-scrollable-header {
+  th {
+
+    &:nth-child(3),
+    &:nth-child(4) {
+      width: 15%;
+    }
+  }
+}
+
+:host ::ng-deep .ui-table-scrollable-body {
+  td {
+
+    &:nth-child(3),
+    &:nth-child(4) {
+      width: 15%;
+    }
+  }
+}

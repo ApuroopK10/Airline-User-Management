@@ -80,7 +80,7 @@
             <input type="email" class="form-control" [(ngModel)]="editUser.email" [ngModelOptions]="{standalone: true}"
               disabled>
           </div>
-          <div class="form-group mb-5">
+          <div class="form-group mb-3 pt-3">
             <p-dropdown [options]="userRoles" [(ngModel)]="editUser.role" [ngModelOptions]="{standalone: true}"
               placeholder="Select role"></p-dropdown>
           </div>
@@ -132,7 +132,7 @@
               <div *ngIf="f.password.errors">Password must be 6 minimum characters long</div>
             </div>
           </div>
-          <div class="form-group mb-5">
+          <div class="form-group mb-3 pt-3">
             <p-dropdown [options]="userRoles" [(ngModel)]="user.role" optionLabel="label" placeholder="Select role"
               formControlName="role" [ngClass]="{ 'is-invalid': submitted && f.role.errors }"></p-dropdown>
             <div *ngIf="submitted && f.role.errors" class="invalid-feedback">

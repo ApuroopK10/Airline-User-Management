@@ -34,7 +34,6 @@ export class LoginService {
     this.setUserData(data);
     this.setToken(token);
     this.setAuthTimer(expiresIn);
-    // this.setAuthStatus(true);
     this.changeAuthStatus(true);
     const now = new Date();
     const expirationDate = new Date(now.getTime() + expiresIn * 1000);
@@ -83,10 +82,6 @@ export class LoginService {
   getAuthStatus() {
     return this.isAuthenticated;
   }
-
-  // setAuthStatus(isAuthenticated: boolean) {
-  //   this.isAuthenticated = isAuthenticated;
-  // }
 
   // Save Auth Data after successful Authentication
   saveAuthData(token: string, expirationDate: Date, userData: User) {
